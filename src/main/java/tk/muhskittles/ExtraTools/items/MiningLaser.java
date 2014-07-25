@@ -17,6 +17,11 @@ public class MiningLaser extends BaseSTBItem implements Chargeable {
 	
 	private static final MaterialData md = new MaterialData(Material.DIAMOND_HOE);
 	private double charge;
+	
+	public MiningLaser() {
+		super();
+		charge = 0;
+	}
 
 	public String getItemName() {
 		return "Mining Laser";
