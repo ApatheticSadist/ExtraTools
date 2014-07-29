@@ -2,6 +2,7 @@ package tk.muhskittles.ExtraTools.items;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.material.MaterialData;
@@ -15,13 +16,19 @@ import me.desht.sensibletoolbox.items.energycells.FiftyKEnergyCell;
 
 public class MiningLaser extends BaseSTBItem implements Chargeable {
 	
-	private static final MaterialData md = new MaterialData(Material.DIAMOND_HOE);
+	private static final MaterialData md = new MaterialData(Material.DIAMOND_AXE);
 	private double charge;
 	
 	public MiningLaser() {
 		super();
 		charge = 0;
 	}
+	
+	public MiningLaser(ConfigurationSection conf) {
+		super();
+		charge = 0;
+	}
+
 
 	public String getItemName() {
 		return "Mining Laser";
@@ -43,19 +50,20 @@ public class MiningLaser extends BaseSTBItem implements Chargeable {
 	}
 
 	public Recipe getRecipe() {
+		ShapedRecipe recipe = new ShapedRecipe(toItemStack());
 		EnergizedIronIngot ei = new EnergizedIronIngot();
 		IntegratedCircuit ic = new IntegratedCircuit();
 		FiftyKEnergyCell ec = new FiftyKEnergyCell();
-		
-		ShapedRecipe recipe = new ShapedRecipe(toItemStack());
+		ec.setCharge(0.0);
+		registerCustomIngredients(ei, ic, ec);
 		recipe.shape("GDB", "ICP", "GDB");
-		recipe.setIngredient('G', ei.getMaterialData());
+		recipe.setIngredient('G', ei.toItemStack().getData());
 		recipe.setIngredient('D', Material.DIAMOND);
 		recipe.setIngredient('B', Material.BLAZE_ROD);
-		recipe.setIngredient('I', ic.getMaterialData());
-		recipe.setIngredient('C', ec.getMaterialData());
+		recipe.setIngredient('I', ic.toItemStack().getData());
+		recipe.setIngredient('C', STBUtil.makeWildCardMaterialData(ec));
 		recipe.setIngredient('P', Material.DIAMOND_PICKAXE);
-		return null;
+		return recipe;
 	}
 
 	public double getCharge() {
@@ -67,7 +75,6 @@ public class MiningLaser extends BaseSTBItem implements Chargeable {
 	}
 
 	public int getMaxCharge() {
-		// TODO Auto-generated method stub
 		return 50000;
 	}
 

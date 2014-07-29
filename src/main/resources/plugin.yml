@@ -1,3 +1,4 @@
 name: ExtraTools
 main: tk.muhskittles.ExtraTools.ExtraTools
 version: 0.0.1
+depend: [SensibleToolbox]
